@@ -21,6 +21,11 @@ ORs ratio and 95\% conference interval
 \description{
 estimate causal odds ratio given trends in exposure prevalence and outcome frequencies of stratified data.
 }
+\references{
+Ji, X., Small, D. S., Leonard, C. E., & Hennessy, S. (2017). The trend-in-trend research design for causal inference. Epidemiology (Cambridge, Mass.), 28(4), 529.
+
+}
+
 \examples{
 \donttest{
 data <- GenData()
@@ -31,4 +36,3 @@ n00 <- data[[4]]
 results <- OR(n11,n10,n01,n00)
 }
 }
-

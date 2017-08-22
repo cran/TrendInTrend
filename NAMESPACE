@@ -2,6 +2,13 @@
 
 export(GenData)
 export(OR)
+export(ttdetect)
+export(ttpower)
+import(pROC)
+import(rms)
+importFrom(grDevices,rainbow)
+importFrom(stats,glm)
 importFrom(stats,optim)
+importFrom(stats,predict)
 importFrom(stats,rbinom)
 importFrom(stats,rnorm)

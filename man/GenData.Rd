@@ -9,4 +9,3 @@ GenData()
 \description{
 Generate simulation data
 }
-
