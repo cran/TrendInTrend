@@ -3,8 +3,9 @@
 #' @param n11 A G by T matrix with n11[i,j] being the counts of positive outcomes among treated subjests within group i at time j;
 #' @param n10 A G by T matrix with n10[i,j] being the counts of negative outcomes among treated subjests within group i at time j;
 #' @param n01 A G by T matrix with n01[i,j] being the counts of positive outcomes among control subjests within group i at time j;
-#' @param n00 A G by T matrix with n00[i,j] being the counts of negative outcomes among control subjests within group i at time j.
-#' @return ORs ratio and 95\% conference interval
+#' @param n00 A G by T matrix with n00[i,j] being the counts of negative outcomes among control subjests within group i at time j;
+#' @param bnull The initial values for the optimization algorithm.
+#' @return ORs ratio, 95\% conference interval, log-likelihood value
 #' @importFrom stats optim rnorm rbinom 
 #' @importFrom stats glm predict
 #' @importFrom grDevices rainbow
@@ -16,10 +17,10 @@
 #' n10 <- data[[2]]
 #' n01 <- data[[3]]
 #' n00 <- data[[4]]
-#' results <- OR(n11,n10,n01,n00)
+#' results <- OR(n11,n10,n01,n00,bnull=c(-4,0,0))
 #' }
 #' @export
-OR<-function(n11,n10,n01,n00){
+OR<-function(n11,n10,n01,n00,bnull=c(-4,0,0)){
   G<-dim(n11)[1]
   Tn<-dim(n11)[2]
   n11<-n11
@@ -35,17 +36,18 @@ OR<-function(n11,n10,n01,n00){
   for(i in 2:Tn)
     h2[i]<-h2[i-1]*sum(n11[,i]+n10[,i])/sum(n11[,i]+n10[,i]+n01[,i]+n00[,i])*sum(n11[,i-1]+n10[,i-1]+n01[,i-1]+n00[,i-1])/sum(n11[,i-1]+n10[,i-1])
 
-  b0<-c(-4,0,0)
-  G0<-rep(c(0.5,1,0.2),rep(5,3))
+  b0<-bnull
+  G0<-rep(c(0.5,1,0.2),rep(G,3))
   start<-c(b0,G0)
   mle = optim(start,fn=LL,gr=NULL,para.const=list(n11,n10,n01,n00,h2,G,Tn),control=list("fnscale"=-1, maxit=10000), method = "Nelder-Mead",hessian=TRUE)
   b1<-mle$par[2]
   sd<-sqrt(abs(diag(solve(-mle$hessian))[2]))
   converge<-mle$converge
+  LV<- round(LL(mle$par,para.const=list(n11,n10,n01,n00,h2,G,Tn)),2)
   if(converge!=0)
     output<-"The program fails to converge"
   if(converge ==0){
-    output<-list(paste("Odds Ratio:",exp(b1)), paste("Confidence Interval:",exp(b1-1.96*sd), exp(b1+1.96*sd)))
+    output<-list(paste("Odds Ratio:",exp(b1)), paste("Confidence Interval:",exp(b1-1.96*sd), exp(b1+1.96*sd)),paste("Log-Likelihood Value:",LV))
   }
   output
 }
@@ -55,9 +57,6 @@ LL<-function(para,para.const){
   b[1]<-para[1]
   b[2]<-para[2]
   b[3]<-para[3]
-  C1<-para[4:8]
-  C2<-para[9:13]
-  C3<-para[14:18]
   n11<-para.const[[1]]
   n10<-para.const[[2]]
   n01<-para.const[[3]]
@@ -65,6 +64,9 @@ LL<-function(para,para.const){
   h2<-para.const[[5]]
   G<-para.const[[6]]
   Tn<-para.const[[7]]
+  C1 <- para[4:(4+G-1)]
+  C2 <- para[(4+G):(4+2*G-1)]
+  C3 <- para[(4+2*G):(4+3*G-1)]
   loglik<-0
   for(g in 1:G)
     for(t in 1:Tn){
@@ -482,8 +484,7 @@ list(power=count2/(nrep-ignore))
 
 
 
-
-
+#set.seed(123)
 #ttpower(N=10000,time=10,G=10,cstat=0.75,alpha_t= 0.4,beta_0=-4.3,h1.OR=1.5,nrep=100)
 
 
@@ -505,5 +506,6 @@ ttdetect<-function(N,time,G,cstat,alpha_t,beta_0,power,nrep, OR.vec){
 
 }
 
+#set.seed(123)
 #ttdetect(N=10000,time=10,G=10,cstat=0.75,alpha_t= 0.4,beta_0=-4.3,power=0.80,nrep=10, OR.vec=c(2.0,2.1,2.2))
 

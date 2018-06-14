@@ -53,9 +53,12 @@ An object 'ttdetect' is a list of containing the following components:
 %% ...
 }
 
-
+\references{
+Ertefaie, A., Small, D. S., Ji, X., Leonard, C., & Hennessy, S. (2018) Statistical Power for Trend-in-trend Design. Epidemiology (Cambridge, Mass.), 29(3), 21-23.
+}
 \examples{
 \dontrun{
+set.seed(123)
 ttdetect(N=10000,time=10,G=10,cstat=0.75,alpha_t= 0.4,beta_0=-4.3,
 power=0.80,nrep=50, OR.vec=c(1.9,2.0,2.1,2.2))
   } 

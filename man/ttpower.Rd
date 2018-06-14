@@ -45,8 +45,12 @@ Number of Monte Carlo replicates.
 Power of detecting the given Odds Ratio
 %% ...
 }
+\references{
+Ertefaie, A., Small, D. S., Ji, X., Leonard, C., & Hennessy, S. (2018) Statistical Power for Trend-in-trend Design. Epidemiology (Cambridge, Mass.), 29(3), 21-23.
+}
 \examples{
 \dontrun{
+set.seed(123)
 ttpower(N=10000,time=10,G=10,cstat=0.75,alpha_t= 0.4,beta_0=-4.3,h1.OR=1.5,nrep=50)
   }
    } 

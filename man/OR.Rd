@@ -4,7 +4,7 @@
 \alias{OR}
 \title{An Odds Ratio Estimation Function}
 \usage{
-OR(n11, n10, n01, n00)
+OR(n11, n10, n01, n00,bnull)
 }
 \arguments{
 \item{n11}{A G by T matrix with n11[i,j] being the counts of positive outcomes among treated subjests within group i at time j;}
@@ -13,19 +13,19 @@ OR(n11, n10, n01, n00)
 
 \item{n01}{A G by T matrix with n01[i,j] being the counts of positive outcomes among control subjests within group i at time j;}
 
-\item{n00}{A G by T matrix with n00[i,j] being the counts of negative outcomes among control subjests within group i at time j.}
+\item{n00}{A G by T matrix with n00[i,j] being the counts of negative outcomes among control subjests within group i at time j;}
+
+\item{bnull}{The initial values for the optimization algorithm. Defult is (-4,0,0).}
 }
 \value{
-ORs ratio and 95\% conference interval
+ORs ratio, 95\% conference interval and log-likelihood value
 }
 \description{
-estimate causal odds ratio given trends in exposure prevalence and outcome frequencies of stratified data.
+estimate causal odds ratio given trends in exposure prevalence and outcome frequencies of stratified data. The optimization algorithm may not converge to the global maxima of the likelihood function. We recomment to run the OR function for multiple starting points and pick the one that is associated with the highest log-likelihood value.
 }
 \references{
 Ji, X., Small, D. S., Leonard, C. E., & Hennessy, S. (2017). The trend-in-trend research design for causal inference. Epidemiology (Cambridge, Mass.), 28(4), 529.
-
 }
-
 \examples{
 \donttest{
 data <- GenData()
@@ -33,6 +33,8 @@ n11 <- data[[1]]
 n10 <- data[[2]]
 n01 <- data[[3]]
 n00 <- data[[4]]
-results <- OR(n11,n10,n01,n00)
+results1 <- OR(n11,n10,n01,n00,bnull=c(-4,0,0))
+results2 <- OR(n11,n10,n01,n00,bnull=c(-5,0,0))
+results2 <- OR(n11,n10,n01,n00,bnull=c(-4,1,-1))
 }
 }
