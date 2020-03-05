@@ -1,7 +1,7 @@
-99cb6125297b8a1bf4113ce9ad064641 *DESCRIPTION
-5f5502bb205d835059b272d1df7c9128 *NAMESPACE
-ece84c5184baa8cd11e98947a2c7cccd *R/TrendInTrend.R
-ef51e08f81c0f10e061bc57bc260adbe *man/GenData.Rd
-6c1e483429a85fd2413308b356072b66 *man/OR.Rd
-d53faa210f1fce2dab4731447d78fe96 *man/ttdetect.Rd
-d03f3247ed54ed31aa9e18a73c29561e *man/ttpower.Rd
+f65518a4e7b39a34cd3c696ace5384cf *DESCRIPTION
+eb5f3e99289cd7592d387f8a4ee94f50 *NAMESPACE
+09451f5d7d7dc9a7616d481165f1dd4a *R/TrendInTrend.R
+5c4b4456c41aff85f629eba53caa8593 *man/GenData.Rd
+9c4d0dbc6b4e73afce6d0f24f8c79826 *man/OR.Rd
+5e4ee8d480c239107aad5ae259c5b0f7 *man/ttdetect.Rd
+04bde1dd82097b2a48516d5e9f1a7024 *man/ttpower.Rd

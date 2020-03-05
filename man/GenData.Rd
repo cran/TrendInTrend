@@ -6,6 +6,18 @@
 \usage{
 GenData()
 }
+\value{
+\item{n11}{A G by Tn matrix with n11[i,j] being the count of treated subjests with an event within group i at time j. The number of strata is G=5 and the number of time intervals is Tn=20.} 
+\item{n10}{A G by Tn matrix with n10[i,j] being the count of treated subjests without an event within group i at time j.}
+\item{n01}{A G by Tn matrix with n01[i,j] being the count of untreated subjests with an event within group i at time j.}
+\item{n00}{A G by Tn matrix with n00[i,j] being the count of untreated subjests without an event within group i at time j.}
+}
 \description{
 Generate simulation data
+}
+\details{
+Besides n11, n10, n01, n00, this function also returns some other simulation paramters, including C1, C2, C3, h2. See Ji et al. (2017) for more details.
+}
+\references{
+Ji X, Small DS, Leonard CE, Hennessy S (2017). The Trend-in-trend Research Design for Causal Inference. Epidemiology. 28(4), 529–536.
 }
